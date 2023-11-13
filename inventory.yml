@@ -1,0 +1,7 @@
+[my_servers] 
+vm0 ansible_host=3.74.165.196
+vm1 ansible_host=3.66.223.173
+[my_servers:vars]
+ansible_user=ubuntu 
+ansible_ssh_private_key_file=/home/hmv/.ssh/id_rsa
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

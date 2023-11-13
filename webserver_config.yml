@@ -1,0 +1,39 @@
+---
+
+- name: configure web server
+  hosts: all #Playbook wird auf allen im Ansible-Inventar definierten Hosts ausgeführt
+  become: true
+  vars:  
+    apache_package: apache2  # replace with httpd for RHEL/CentOS 
+    ansible_user: ubuntu 
+    ansible_ssh_private_key_file: /home/hmv/.ssh/id_rsa
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no' 
+
+  tasks: 
+    - name: install apache http server
+      ansible.builtin.apt: 
+        name: "{{ apache_package }}"
+        state: present
+        update_cache: true
+   
+    - name: start apache service
+      ansible.builtin.service: 
+        name: "{{ apache_package }}"
+        state: started
+        enabled: true
+      
+    - name: copy index.html template
+      ansible.builtin.template: 
+        src: templates/index.html.j2
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: "0644"
+      notify:
+        - restart apache
+
+  handlers: 
+    - name: restart apache
+      ansible.builtin.service:
+        name: "{{ apache_package }}"
+        state: restarted

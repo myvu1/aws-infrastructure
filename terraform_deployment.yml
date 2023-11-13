@@ -1,0 +1,26 @@
+- name: Basic deploy of a service
+  hosts: localhost #Playbook wird auf dem lokalen Host "localhost" ausgeführt und verwendet eine lokale Verbindung.
+  connection: local
+  #vars_prompt: #benutzerdefinierte Variablen abzufragen, bevor das Playbook ausgeführt wird.
+   # - name: input_count # Name der zu definierenden Variable
+    #  prompt: "Die Anzahl der gewünschten VM angeben"
+     # private: false
+
+  tasks:
+    - name: create state file
+      ansible.builtin.template:
+        src: templates/main.tf
+        dest: /mnt/c/Users/MYVU/git/terraform/main.tf
+
+    #- name: create variable file
+    #  ansible.builtin.template:
+    #    src: templates/variables.tf.j2
+    #    dest: /mnt/c/Users/MYVU/git/terraform/variables.tf
+
+    - name: deploy vm aws 
+      cloud.terraform.terraform:
+        project_path: /mnt/c/Users/MYVU/git/terraform
+        state: present
+  
+    
+

@@ -1,0 +1,14 @@
+---
+# Example using constructed features to create groups and set ansible_host
+#plugin: amazon.aws.aws_ec2 #ruft Informationen auf AWS ab
+#regions:
+  #- eu-central-1
+# keyed_groups may be used to create custom groups
+#strict: False
+#keyed_groups:
+  # Add hosts to e.g. instance_type_z3_tiny
+#  - prefix: instance_type
+ #   key: instance_type
+
+state_file: main.tf
+plugin: cloud.terraform.terraform_provider
